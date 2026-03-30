@@ -68,27 +68,26 @@ impl Writeable for Reg {
         // MSR DAIFClr takes a 4-bit immediate operand, so we must match on all
         // possible values and emit the corresponding instruction with a constant
         // immediate.
+        debug_assert!(value & !0xF == 0);
         let imm = value & 0xF;
-        unsafe {
-            match imm {
-                0b0000 => {}
-                0b0001 => core::arch::asm!("msr daifclr, #0x1", options(nomem, nostack)),
-                0b0010 => core::arch::asm!("msr daifclr, #0x2", options(nomem, nostack)),
-                0b0011 => core::arch::asm!("msr daifclr, #0x3", options(nomem, nostack)),
-                0b0100 => core::arch::asm!("msr daifclr, #0x4", options(nomem, nostack)),
-                0b0101 => core::arch::asm!("msr daifclr, #0x5", options(nomem, nostack)),
-                0b0110 => core::arch::asm!("msr daifclr, #0x6", options(nomem, nostack)),
-                0b0111 => core::arch::asm!("msr daifclr, #0x7", options(nomem, nostack)),
-                0b1000 => core::arch::asm!("msr daifclr, #0x8", options(nomem, nostack)),
-                0b1001 => core::arch::asm!("msr daifclr, #0x9", options(nomem, nostack)),
-                0b1010 => core::arch::asm!("msr daifclr, #0xa", options(nomem, nostack)),
-                0b1011 => core::arch::asm!("msr daifclr, #0xb", options(nomem, nostack)),
-                0b1100 => core::arch::asm!("msr daifclr, #0xc", options(nomem, nostack)),
-                0b1101 => core::arch::asm!("msr daifclr, #0xd", options(nomem, nostack)),
-                0b1110 => core::arch::asm!("msr daifclr, #0xe", options(nomem, nostack)),
-                0b1111 => core::arch::asm!("msr daifclr, #0xf", options(nomem, nostack)),
-                _ => core::hint::unreachable_unchecked(),
-            }
+        match imm {
+            0b0000 => {}
+            0b0001 => unsafe { core::arch::asm!("msr daifclr, #0x1", options(nomem, nostack)) },
+            0b0010 => unsafe { core::arch::asm!("msr daifclr, #0x2", options(nomem, nostack)) },
+            0b0011 => unsafe { core::arch::asm!("msr daifclr, #0x3", options(nomem, nostack)) },
+            0b0100 => unsafe { core::arch::asm!("msr daifclr, #0x4", options(nomem, nostack)) },
+            0b0101 => unsafe { core::arch::asm!("msr daifclr, #0x5", options(nomem, nostack)) },
+            0b0110 => unsafe { core::arch::asm!("msr daifclr, #0x6", options(nomem, nostack)) },
+            0b0111 => unsafe { core::arch::asm!("msr daifclr, #0x7", options(nomem, nostack)) },
+            0b1000 => unsafe { core::arch::asm!("msr daifclr, #0x8", options(nomem, nostack)) },
+            0b1001 => unsafe { core::arch::asm!("msr daifclr, #0x9", options(nomem, nostack)) },
+            0b1010 => unsafe { core::arch::asm!("msr daifclr, #0xa", options(nomem, nostack)) },
+            0b1011 => unsafe { core::arch::asm!("msr daifclr, #0xb", options(nomem, nostack)) },
+            0b1100 => unsafe { core::arch::asm!("msr daifclr, #0xc", options(nomem, nostack)) },
+            0b1101 => unsafe { core::arch::asm!("msr daifclr, #0xd", options(nomem, nostack)) },
+            0b1110 => unsafe { core::arch::asm!("msr daifclr, #0xe", options(nomem, nostack)) },
+            0b1111 => unsafe { core::arch::asm!("msr daifclr, #0xf", options(nomem, nostack)) },
+            _ => unreachable!(),
         }
     }
 
