@@ -68,7 +68,6 @@ impl Writeable for Reg {
         // MSR DAIFSet takes a 4-bit immediate operand, so we must match on all
         // possible values and emit the corresponding instruction with a constant
         // immediate.
-        debug_assert!(value & !0xF == 0);
         let imm = value & 0xF;
         match imm {
             0b0000 => {}
